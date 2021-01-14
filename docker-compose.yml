@@ -1,0 +1,56 @@
+version: "3"
+
+networks:
+  web-network:
+
+services:
+  mysql:
+    image: mysql:5.6
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./dbbackup:/var/lib/mysql-db-backup
+    environment:
+      - "MYSQL_DATABASE=product"
+      - "MYSQL_USER=iotcms"
+      - "MYSQL_PASSWORD=htactive"
+      - "MYSQL_ROOT_PASSWORD=htactive"
+    ports:
+      - "3306:3306"
+    networks:
+      - web-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      - "MYSQL_USER=root"
+      - "MYSQL_PASSWORD=htactive"
+    links:
+      - mysql:db
+    ports:
+      - "8081:80"
+    networks:
+      - web-network
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - web-network
+    depends_on:
+      - "mysql"
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./app:/var/www
+    working_dir: /var/www
+    networks:
+      - web-network
+    depends_on:
+      - "mysql"

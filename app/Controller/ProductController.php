@@ -20,6 +20,10 @@ class ProductController{
                 break;
             case 'showCart':
                 $this->showCart();
+                // var_dump($_POST['deleteItem']);
+                if(isset($_POST['deleteItem'])){
+                    $this->deleteCartItem();
+                }
                 break;
             case 'cart':
                 $this->addToCart($id);
@@ -114,9 +118,10 @@ class ProductController{
     }
     public function deleteCartItem(){
           if(isset($_GET['action'])){
-            if ($_GET['action']='deleteCartItem'){
+            if ($_GET['action']='showCart'){
+                if(isset($_POST['deleteItem']))
                 foreach ($_SESSION['shoppingCart'] as $keys=>$values) {
-                    if($values['item_id']==$_GET['id']){
+                    if($values['item_id']==$_POST['delete_item_id']){
                         unset($_SESSION['shoppingCart'][$keys]);
                         echo '<script>window.location="http://localhost:8080?action=showCart"</script>';
                     }

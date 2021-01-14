@@ -13,7 +13,7 @@
     <form action="http://localhost:8080?action=detail&id=<?= $product['id']?>" method="post">
         <p><strong>Size:</strong></p>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="size" value="S">
+            <input class="form-check-input" type="radio" name="size" value="S" checked>
             <label class="form-check-label" for="inlineRadio1">S</label>
         </div>
         <div class="form-check form-check-inline">

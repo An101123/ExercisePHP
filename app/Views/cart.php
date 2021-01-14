@@ -1,12 +1,15 @@
 <div class="container-fluid">
-<div class="row cart-title">
-<div class="col-8">
-<h2 class="cart-title">GIỎ HÀNG</h2></div>
-<div class="col-4">
-<a href="http://localhost:8080"><button class="btn btn-danger"><i class="bi bi-x"></i> </button></a></div></div>
+  <div class="row cart-title">
+    <div class="col-8">
+      <h2 class="cart-title">GIỎ HÀNG</h2>
+    </div>
+    <div class="col-4">
+      <a href="http://localhost:8080"><button class="btn btn-danger"><i class="bi bi-x"></i> </button></a>
+    </div>
+  </div>
 
- 
-  
+
+
   <table class="table table-hover">
     <thead>
       <tr>
@@ -34,7 +37,13 @@
             <td><?= $values['item_quantity'] ?></td>
             <td><?= $values['item_price'] ?></td>
             <td style="text-align:end"><?php echo ($values['item_quantity'] * $values['item_price']) ?></td>
-            <td><a href="?action=deleteCartItem&id=<?= $values['item_id'] ?>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+            <td>
+              <form method="post">
+                <input type="hidden" name="delete_item_id" value="<?= $values['item_id'] ?>">
+                <button type="submit" name="deleteItem" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+
           </tr>
           <?php $total = $total + $values['item_quantity'] * $values['item_price'] ?>
 
@@ -45,11 +54,12 @@
             <?= $total ?></td>
         </tr>
         <tr>
-        <td colspan="4" style="text-align:end">Discount: </td>
+          <td colspan="4" style="text-align:end">Discount: </td>
           <td style="text-align:end">
-          <?php echo $getVoucher['discount']?>%</p></td>
+            <?php echo $getVoucher['discount'] ?>%</p>
+          </td>
         </tr>
-        
+
       <?php } ?>
 
 
@@ -57,15 +67,17 @@
     </tbody>
   </table>
   <div style="margin-bottom:100px;" class="row">
-  <div class="col-2">
-  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Thêm voucher</button>
+    <div class="col-2">
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Thêm voucher</button>
+    </div>
+    <div class="col-4">
+      <div class="show-voucher">
+        <p>Voucher đã chọn: <?php echo $getVoucher['title'] ?></p>
+      </div>
+    </div>
   </div>
-  <div class="col-4">
-  <div class="show-voucher">
-  <p>Voucher đã chọn: <?php echo $getVoucher['title']?></p>
-  </div></div></div>
-  
- 
+
+
   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button> -->
 
@@ -83,7 +95,7 @@
             <?php foreach ($vouchers as  $voucher) { ?>
 
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="voucher" id="exampleRadios1" value="<?php echo $voucher['id']?>" />
+                <input class="form-check-input" type="radio" name="voucher" id="exampleRadios1" value="<?php echo $voucher['id'] ?>" />
                 <label class="form-check-label" for="exampleRadios1">
                   <?php echo $voucher['title']; ?>
                 </label>
@@ -102,7 +114,7 @@
 
   <div class="row fixed-bottom order">
     <div class="col-6">
-      <strong>Total: <?php echo $total*(100-$getVoucher['discount'])/100 ?>$</strong>
+      <strong>Total: <?php echo $total * (100 - $getVoucher['discount']) / 100 ?>$</strong>
     </div>
     <div class="col-6">
       <button type="button" class="btn btn-danger">Mua hàng</button>

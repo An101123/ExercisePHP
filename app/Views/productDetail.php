@@ -1,3 +1,10 @@
+<div class="row cart">
+  <div class="showCart">
+    <a href="http://localhost:8080?action=showCart"><button class="btn btn-primary"><i class="bi bi-cart-plus-fill"></i>Xem giỏ hàng</button> </a>
+
+  </div>
+
+</div>
 <div class="row">
     <div class="col-4">
         <div class="img-product">
@@ -7,6 +14,7 @@
     </div>
     <div class="col-8">
         <h2><?= $product['name'] ?></h2>
+        <p><strong>Price: $<?= $product['price'] ?></strong></p>
         <p><strong>Description:</strong></p>
         <p> <?= $product['description'] ?></p>
         <p><strong>Options:</strong></p>
@@ -25,7 +33,7 @@
             <label class="form-check-label" for="inlineRadio3">L</label>
         </div>
         <p><strong>Quantity</strong></p>
-        <input type="number" name="quantity">
+        <input type="number" name="quantity" value="1">
         <button type="submit" name="addToCart" style="display:block; margin-top:100px" class="btn btn-warning"><i class="bi bi-cart-plus-fill"></i> Thêm vào giỏ hàng</button> 
     </form>
     </div>

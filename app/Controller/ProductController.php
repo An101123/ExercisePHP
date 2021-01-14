@@ -13,6 +13,9 @@ class ProductController{
         switch ($action){
             case  '':
                 $this->index();
+                // var_dump($_POST['buyNow']);
+              
+
                 break;
             case 'detail':
                 $this->detail($id);
@@ -24,6 +27,7 @@ class ProductController{
                 if(isset($_POST['deleteItem'])){
                     $this->deleteCartItem();
                 }
+               
                 break;
             case 'cart':
                 $this->addToCart($id);
@@ -31,6 +35,9 @@ class ProductController{
             case 'deleteCartItem':
                 $this->deleteCartItem($id);
                 break;
+            // case 'admin':
+            //     $this->indexAdmin();
+            //     break;
             default:
                 echo "404 Not Found!";
                 break;
@@ -45,10 +52,50 @@ class ProductController{
         // var_dump($product);
         include_once(__DIR__. '/../Views/productDetail.php');
     }
+    public function buyNow($id_product){
+        $product = $this->product->getProductById($id_product);
+        $id = $_POST['product_id'];
+        $item_id= rand();
+      
+        if(isset($_POST['buyNow'])){
+            if(isset($_SESSION['shoppingCart'])){
+                // var_dump($_SESSION['shoppingCart']);
+                $item_array_id = array_column($_SESSION['shoppingCart'], '$item_id');
+                if (!in_array($id, $item_array_id)){
+                    $count= count($_SESSION['shoppingCart']);
+                    $item_array = array(
+                        'item_id' => $item_id,
+                        'item_name'=>  $product['name'],
+                        'item_quantity' => '1',
+                        'item_size' => 'S',
+                        'item_price' =>$product['price']
+
+                    );
+                $_SESSION['shoppingCart'][$count] = $item_array;
+                
+                }
+                else{
+                    // echo "hihih";
+                }
+            }
+            else{
+                $item_array = array(
+                    'item_id' => $item_id,
+                    'item_name'=>  $product['name'],
+                    'item_quantity' => '1',
+                        'item_size' => 'S',
+                    'item_price' =>$product['price']
+
+                );
+            $_SESSION['shoppingCart'][0] = $item_array;
+            }
+        }
     
+    }
     public function addToCart($id){
         $product = $this->product->getProductById($id);
         $item_id= rand();
+        
         if(isset($_POST['addToCart'])){
             if(isset($_SESSION['shoppingCart'])){
                 // var_dump($_SESSION['shoppingCart']);
@@ -72,7 +119,7 @@ class ProductController{
             }
             else{
                 $item_array = array(
-                    'item_id' => $_GET['id'],
+                    'item_id' => $item_id,
                     'item_name'=>  $product['name'],
                     'item_quantity' => $_POST['quantity'],
                     'item_size' => $_POST['size'],
@@ -101,6 +148,11 @@ class ProductController{
 
         if(isset($_GET['action'])){
             if ($_GET['action']='showCart'){
+                if(isset($_POST['buyNow'])){
+                    $id_product = $_POST['product_id'];
+                    $this->buyNow($id_product);
+
+                }
                 $id =null;
                 if (isset($_POST['submitVoucher'])){
                     $id = $_POST['voucher'];
@@ -110,7 +162,7 @@ class ProductController{
                 // var_dump($id);
                 $getVoucher = $this->product->getVoucherById($id);
                 // var_dump($getVoucher,'?????????');
-        include_once(__DIR__. '/../Views/cart.php');
+                include_once(__DIR__. '/../Views/cart.php');
             }
         } 
        

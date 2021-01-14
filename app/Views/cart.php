@@ -3,25 +3,20 @@
     <div class="col-8">
       <h2 class="cart-title">GIỎ HÀNG</h2>
     </div>
-    <div class="col-4">
+    <div style="text-align: right;" class="col-4">
       <a href="http://localhost:8080"><button class="btn btn-danger"><i class="bi bi-x"></i> </button></a>
     </div>
   </div>
-
-
-
   <table class="table table-hover">
     <thead>
       <tr>
+      <th scope="col"></th>
         <th scope="col">Product</th>
         <th scope="col">Size</th>
         <th scope="col">Quantity</th>
         <th scope="col">Price</th>
         <th style="text-align:end" scope="col">Total</th>
         <th scope="col">Action</th>
-
-
-
       </tr>
     </thead>
     <tbody>
@@ -31,6 +26,7 @@
         $total = 0;
         foreach ($_SESSION['shoppingCart'] as $values) { ?>
           <tr>
+            <td><img src="<?$values['item_image']?>" alt=""></td>
             <td><?= $values['item_name'] ?></td>
 
             <td><?= $values['item_size'] ?></td>
@@ -114,7 +110,7 @@
 
   <div class="row fixed-bottom order">
     <div class="col-6">
-      <strong>Total: <?php echo $total * (100 - $getVoucher['discount']) / 100 ?>$</strong>
+      <strong style="color: white; font-size:x-large">Total: <?php echo $total * (100 - $getVoucher['discount']) / 100 ?>$</strong>
     </div>
     <div class="col-6">
       <button type="button" class="btn btn-danger">Mua hàng</button>

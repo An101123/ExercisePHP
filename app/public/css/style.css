@@ -1,3 +1,4 @@
+
 .card-img-top{
     width:100%; height:300px
 }
@@ -47,4 +48,13 @@ td, th{
     background-color: gray;
     height: 100px;
     align-items: center;
+}
+.button{
+    display: flex; justify-content:space-around;
+}
+.product{
+    margin-bottom: 30px;
+}
+.addCart{
+    height: 70%;
 }

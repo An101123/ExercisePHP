@@ -10,7 +10,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-      <th scope="col"></th>
+        <th scope="col"></th>
         <th scope="col">Product</th>
         <th scope="col">Size</th>
         <th scope="col">Quantity</th>
@@ -26,7 +26,11 @@
         $total = 0;
         foreach ($_SESSION['shoppingCart'] as $values) { ?>
           <tr>
-            <td><img src="<?$values['item_image']?>" alt=""></td>
+
+            <td>
+              <div style="width:100px; height:100px"><img style="width:100%; height:100%;     margin-left: 100px;
+" src="<?= $values['item_image'] ?>" alt=""></div>
+            </td>
             <td><?= $values['item_name'] ?></td>
 
             <td><?= $values['item_size'] ?></td>
@@ -45,12 +49,12 @@
 
         <?php } ?>
         <tr>
-          <td colspan="4" style="text-align:end">Total: </td>
+          <td colspan="5" style="text-align:end">Total: </td>
           <td style="text-align:end">
             <?= $total ?></td>
         </tr>
         <tr>
-          <td colspan="4" style="text-align:end">Discount: </td>
+          <td colspan="5" style="text-align:end">Discount: </td>
           <td style="text-align:end">
             <?php echo $getVoucher['discount'] ?>%</p>
           </td>
@@ -113,9 +117,10 @@
       <strong style="color: white; font-size:x-large">Total: <?php echo $total * (100 - $getVoucher['discount']) / 100 ?>$</strong>
     </div>
     <div class="col-6">
-      <button type="button" class="btn btn-danger">Mua hàng</button>
+      <form method="post">
+      <button type="submit" name="buy" class="btn btn-danger">Đặt hàng</button>
+      </form>
     </div>
-
 
   </div>
 </div>

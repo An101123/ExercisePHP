@@ -14,8 +14,6 @@ class ProductController{
             case  '':
                 $this->index();
                 // var_dump($_POST['buyNow']);
-              
-
                 break;
             case 'detail':
                 $this->detail($id);
@@ -23,11 +21,12 @@ class ProductController{
                 break;
             case 'showCart':
                 $this->showCart();
-                // var_dump($_POST['deleteItem']);
                 if(isset($_POST['deleteItem'])){
                     $this->deleteCartItem();
                 }
-               
+                // if(isset($_POST['buy'])){
+                //     $this->order();
+                // }
                 break;
             case 'cart':
                 $this->addToCart($id);
@@ -66,6 +65,7 @@ class ProductController{
                     $item_array = array(
                         'item_id' => $item_id,
                         'item_name'=>  $product['name'],
+                        'item_image' => $product['image'],
                         'item_quantity' => '1',
                         'item_size' => 'S',
                         'item_price' =>$product['price']
@@ -95,21 +95,24 @@ class ProductController{
     public function addToCart($id){
         $product = $this->product->getProductById($id);
         $item_id= rand();
-        
+        // var_dump($product);
         if(isset($_POST['addToCart'])){
             if(isset($_SESSION['shoppingCart'])){
                 // var_dump($_SESSION['shoppingCart']);
                 $item_array_id = array_column($_SESSION['shoppingCart'], '$item_id');
                 if (!in_array($_GET['id'], $item_array_id)){
                     $count= count($_SESSION['shoppingCart']);
+
                     $item_array = array(
                         'item_id' => $item_id,
                         'item_name'=>  $product['name'],
+                        'item_image'=> $product['image'],
                         'item_quantity' => $_POST['quantity'],
                         'item_size' => $_POST['size'],
                         'item_price' =>$product['price']
 
                     );
+
                 $_SESSION['shoppingCart'][$count] = $item_array;
                 
                 }
@@ -128,6 +131,8 @@ class ProductController{
                 );
             $_SESSION['shoppingCart'][0] = $item_array;
             }
+        // echo '<script>alert("Sản phẩm đã được thêm vào giỏ hàng!")</script>'; 
+
         }
         // if(isset($_GET['action'])){
         //     if ($_GET['action']='deleteCartItem'){
@@ -151,7 +156,6 @@ class ProductController{
                 if(isset($_POST['buyNow'])){
                     $id_product = $_POST['product_id'];
                     $this->buyNow($id_product);
-
                 }
                 $id =null;
                 if (isset($_POST['submitVoucher'])){
@@ -181,5 +185,10 @@ class ProductController{
             }
         }
     }
+    // public function order(){
+    //     $orders = $this->product->addOrder();
+
+    // }
+    
 
 }

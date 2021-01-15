@@ -28,6 +28,7 @@ class ProductController
                 }
                 if (isset($_POST['buy'])) {
                     $this->order();
+                    $this->deleteAllCartItem();
                 }
                 break;
             case 'cart':
@@ -100,11 +101,9 @@ class ProductController
         // var_dump($product);
         if (isset($_POST['addToCart'])) {
             if (isset($_SESSION['shoppingCart'])) {
-                // var_dump($_SESSION['shoppingCart']);
                 $item_array_id = array_column($_SESSION['shoppingCart'], '$item_id');
                 if (!in_array($_GET['id'], $item_array_id)) {
                     $count = count($_SESSION['shoppingCart']);
-
                     $item_array = array(
                         'item_id' => $item_id,
                         'item_name' =>  $product['name'],
@@ -185,7 +184,12 @@ class ProductController
     }
     public function order()
     {
-        $orders = $this->product->addOrder();
+        $orders = $this->product->addOrderDetaill();
         echo '<script>alert("Đặt hàng thành công!")</script>';
+    }
+    public function deleteAllCartItem(){
+            foreach ($_SESSION['shoppingCart'] as $keys => $values) {
+                unset($_SESSION['shoppingCart'][$keys]);     
+        }
     }
 }

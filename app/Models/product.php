@@ -33,7 +33,7 @@ class Product extends Connect{
         $voucherById = $sql->fetch();
         return $voucherById;
     }
-    public function addOrder(){
+    public function addOrderDetaill(){
         if (!empty($_SESSION['shoppingCart'])) {
             foreach ($_SESSION['shoppingCart'] as $values) {
                 // var_dump($values);
@@ -49,7 +49,6 @@ class Product extends Connect{
                 $order->execute($data);
             }
         }
-       
     }
 }
 ?>
